@@ -2,11 +2,14 @@ package com.doubley.customandroidtest.customtest;
 
 import android.content.res.AssetManager;
 import android.test.InstrumentationTestCase;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 
 /**
  * Created by yasudayousuke on 7/2/15.
@@ -25,5 +28,16 @@ public class CustomInstrumentationTestCase extends InstrumentationTestCase {
             buffer += str;
         }
         return buffer;
+    }
+    protected void checkKeyValidation(JSONObject expectJson, JSONObject actualObject){
+        Iterator<String> keys = expectJson.keys();
+        while(keys.hasNext()){
+            String key = keys.next();
+            try {
+                actualObject.get(key);
+            } catch (JSONException e) {
+                fail("in " + actualObject.toString() + "" + key + " does not exist");
+            }
+        }
     }
 }
