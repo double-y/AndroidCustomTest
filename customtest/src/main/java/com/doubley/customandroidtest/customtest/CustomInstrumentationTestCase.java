@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 
 /**
@@ -28,6 +30,15 @@ public class CustomInstrumentationTestCase extends InstrumentationTestCase {
             buffer += str;
         }
         return buffer;
+    }
+    protected Object invokeMethod(Class targetClass, String methodName, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class[] argClasses = new Class[args.length];
+        for (int i=0; i<args.length;i++) {
+            argClasses[i] = args[i].getClass();
+        }
+        Method method = targetClass.getDeclaredMethod(methodName, argClasses);
+        method.setAccessible(true);
+        return method.invoke(null, args);
     }
     protected void checkKeyValidation(JSONObject expectJson, JSONObject actualObject){
         Iterator<String> keys = expectJson.keys();
