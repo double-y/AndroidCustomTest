@@ -17,6 +17,7 @@ import java.util.Iterator;
  * Created by yasudayousuke on 7/2/15.
  */
 public class CustomInstrumentationTestCase extends InstrumentationTestCase {
+
     protected String getStringFromAssetFile(String filename) throws IOException {
         AssetManager assets = getInstrumentation().getContext().getAssets();
         String buffer = "";
@@ -31,6 +32,7 @@ public class CustomInstrumentationTestCase extends InstrumentationTestCase {
         }
         return buffer;
     }
+
     protected Object invokeMethod(Class targetClass, String methodName, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class[] argClasses = new Class[args.length];
         for (int i=0; i<args.length;i++) {
@@ -40,6 +42,7 @@ public class CustomInstrumentationTestCase extends InstrumentationTestCase {
         method.setAccessible(true);
         return method.invoke(null, args);
     }
+
     protected void checkKeyValidation(JSONObject expectJson, JSONObject actualObject){
         Iterator<String> keys = expectJson.keys();
         while(keys.hasNext()){
