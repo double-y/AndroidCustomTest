@@ -1,1 +1,1 @@
-include ':customtest'
+include ':customtest', ':custom_test', ':sampleapp'
